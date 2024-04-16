@@ -333,8 +333,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 510587399}
-  movespeed: 3
-  jumpForce: 8
+  movespeed: 6
+  jumpForce: 16
 --- !u!224 &510587401
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1034,8 +1034,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 1542978185}
-  movespeed: 3
-  jumpForce: 8
+  movespeed: 2
+  jumpForce: 4
 --- !u!1 &1717557038
 GameObject:
   m_ObjectHideFlags: 0
