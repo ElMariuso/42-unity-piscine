@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     private static GameObject activeCharacter = null;
 
     // Movement values
-    [SerializeField] private float movespeed = 3.0f;
+    [SerializeField] private float movespeed = 6.0f;
     [SerializeField] private float jumpForce = 8.0f;
 
     // Other values

@@ -7,6 +7,9 @@ TagManager:
   - Character1
   - Character2
   - Character3
+  - Exit1
+  - Exit2
+  - Exit3
   layers:
   - Default
   - TransparentFX
