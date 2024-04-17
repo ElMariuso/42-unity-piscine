@@ -234,7 +234,7 @@ GameObject:
   - component: {fileID: 510587396}
   - component: {fileID: 510587399}
   - component: {fileID: 510587400}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: John
   m_TagString: Character3
   m_Icon: {fileID: 0}
@@ -690,7 +690,7 @@ GameObject:
   - component: {fileID: 1422827676}
   - component: {fileID: 1422827675}
   - component: {fileID: 1422827674}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -920,7 +920,7 @@ GameObject:
   - component: {fileID: 1542978182}
   - component: {fileID: 1542978185}
   - component: {fileID: 1542978186}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Claire
   m_TagString: Character2
   m_Icon: {fileID: 0}
@@ -1094,7 +1094,7 @@ GameObject:
   - component: {fileID: 1759898494}
   - component: {fileID: 1759898497}
   - component: {fileID: 1759898498}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Thomas
   m_TagString: Character1
   m_Icon: {fileID: 0}
