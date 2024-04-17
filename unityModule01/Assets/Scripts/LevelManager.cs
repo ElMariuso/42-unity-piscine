@@ -10,6 +10,7 @@ public class LevelManager : MonoBehaviour
             if (!exit.IsExitReached())
                 return ;
         }
-        Debug.Log("All exits reached. Stage 1 completed!");
+        Debug.Log("All exits reached. Stage completed!");
+        GameManager.Instance.LoadNextStage();
     }
 }

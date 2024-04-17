@@ -11,9 +11,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpForce = 8.0f;
 
     // Other values
+    private float currentHorizontalSpeed;
     private bool isActive = false;
     private bool isGrounded = true;
     private float bufferCheckDistance = 0.1f;
+    private float horizontalVelocity = 0.0f;
+    private float smoothTime = 0.1f;
 
     // Start is called before the first frame update
     private void Start()
@@ -24,20 +27,15 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        float groundedCheckDistance = (GetComponent<BoxCollider>().size.y / 2) + bufferCheckDistance;
-        RaycastHit hit;
-
-        if (Physics.Raycast(transform.position, -transform.up, out hit, groundedCheckDistance))
-            isGrounded = true;
-        else
-            isGrounded = false;
-        
+        isGrounded = IsGrounded();
+    
         HandleActivation();
         if (isActive && Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
+
 
     private void FixedUpdate()
     {
@@ -61,8 +59,30 @@ public class PlayerController : MonoBehaviour
     private void CharacterMovement()
     {
         float horInput = Input.GetAxis("Horizontal");
-        Vector3 movement = new Vector3(0, 0, horInput).normalized;
+        float targetSpeed = horInput * movespeed;
 
-        transform.Translate(movement * movespeed * Time.deltaTime);
+        currentHorizontalSpeed = Mathf.SmoothDamp(currentHorizontalSpeed, targetSpeed, ref horizontalVelocity, smoothTime);
+        transform.Translate(new Vector3(0, 0, currentHorizontalSpeed) * Time.deltaTime, Space.World);
+    }
+
+    private bool IsGrounded()
+    {
+        Vector3 origin = transform.position;
+        float distanceToGround = GetComponent<BoxCollider>().size.y / 2 + bufferCheckDistance;
+        float depth = GetComponent<BoxCollider>().size.z / 2;
+
+        Vector3[] raycastOrigins = {
+            origin,
+            origin + Vector3.forward * depth,
+            origin - Vector3.forward * depth
+        };
+
+        foreach (var rayOrigin in raycastOrigins)
+        {
+            Debug.DrawRay(rayOrigin, Vector3.down * distanceToGround, Color.red);
+            if (Physics.Raycast(rayOrigin, Vector3.down, distanceToGround))
+                return true;
+        }
+        return false;
     }
 }
