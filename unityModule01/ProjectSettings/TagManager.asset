@@ -10,6 +10,10 @@ TagManager:
   - Exit1
   - Exit2
   - Exit3
+  - MovePlatformUp
+  - MovePlatformDown
+  - MovePlatformRight
+  - MovePlatformLeft
   layers:
   - Default
   - TransparentFX

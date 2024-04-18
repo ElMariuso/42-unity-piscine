@@ -2398,6 +2398,7 @@ MonoBehaviour:
   stages:
   - Stage1
   - Stage2
+  - Stage3
 --- !u!1 &1759898492
 GameObject:
   m_ObjectHideFlags: 0
