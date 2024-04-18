@@ -3,7 +3,7 @@ using UnityEngine;
 public class TeleporterManager : MonoBehaviour
 {
     [SerializeField] private TeleporterManager exitTeleporter;
-    [SerializeField] private float cooldown = 1.0f;
+    [SerializeField] private float cooldown = 3.0f;
 
     private void OnTriggerEnter(Collider other)
     {

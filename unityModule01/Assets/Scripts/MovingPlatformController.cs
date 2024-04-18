@@ -26,7 +26,8 @@ public class MovingPlatformController : MonoBehaviour
         string platformColor = platformLayer.Replace("Platform", "");
         string characterColor = characterLayer.Replace("Character", "");
 
-        if (platformColor == characterColor)
+        if (platformColor == characterColor
+            || (platformColor == "White" && other.tag.Contains("Character")))
             other.transform.SetParent(transform);
         switch (other.tag)
         {
