@@ -7,12 +7,10 @@ public class OpenDoorSwitch : SwitchManager
     [SerializeField] private GameObject[] doorsToControl;
     [SerializeField] private bool shouldTakeColor;
 
-    private void OnCollisionEnter(Collision other)
+    protected override void TriggerSwitch()
     {
-        if (shouldTakeColor)
-        {
-
-        }
+        base.TriggerSwitch();
+        OpenDoors();
     }
 
     private void OpenDoors()
