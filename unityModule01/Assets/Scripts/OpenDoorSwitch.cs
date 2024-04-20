@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class OpenDoorSwitch : SwitchManager
@@ -10,7 +8,7 @@ public class OpenDoorSwitch : SwitchManager
     protected override void OnTriggerEnter(Collider other)
     {
         base.OnTriggerEnter(other);
-
+        
         if (shouldTakeColor)
             ChangeSwitchColorBasedOnCharacter(other);
     }
@@ -21,7 +19,7 @@ public class OpenDoorSwitch : SwitchManager
 
         if (shouldTakeColor && currentColor != Color.white)
             OpenColorDoor();
-        else
+        else if (!shouldTakeColor)
             OpenDoors();
     }
 

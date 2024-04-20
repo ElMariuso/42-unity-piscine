@@ -7,7 +7,8 @@ public class SwitchManager : MonoBehaviour
     protected Color currentColor = Color.white;
     protected bool isTriggered = false;
 
-    private void Start() {
+    private void Start()
+    {
         switch (colorNumber)
         {
             case 0:
@@ -68,21 +69,13 @@ public class SwitchManager : MonoBehaviour
 
         if (renderer != null)
         {
+            currentColor = newColor;
             if (newColor == Color.red)
-            {
                 renderer.material = materials[0];
-                gameObject.layer = LayerMask.NameToLayer("RedPlatform");
-            }
             else if (newColor == Color.blue)
-            {
                 renderer.material = materials[1];
-                gameObject.layer = LayerMask.NameToLayer("BluePlatform");
-            }
             else if (newColor == Color.yellow)
-            {
                 renderer.material = materials[2];
-                gameObject.layer = LayerMask.NameToLayer("YellowPlatform");
-            }
         }
     }
 
