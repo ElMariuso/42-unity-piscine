@@ -5,6 +5,7 @@ public class PlayerController : MonoBehaviour
     // Object
     [SerializeField] private Rigidbody rb;
     private static GameObject activeCharacter = null;
+    [SerializeField] private GameObject markerPrefab;
 
     // Movement values
     [SerializeField] private float movespeed = 6.0f;
@@ -27,24 +28,46 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        isGrounded = IsGrounded();
-    
-        HandleActivation();
-        if (isActive && Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (!GameManager.Instance.IsGameOver)
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            isGrounded = IsGrounded();
+            HandleActivation();
+            if (isActive && Input.GetKeyDown(KeyCode.Space) && isGrounded)
+                rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
 
-
     private void FixedUpdate()
     {
-        if (isActive)
+        if (isActive && !GameManager.Instance.IsGameOver)
             CharacterMovement();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("DeathByHole") || other.CompareTag("DeathByTrapOrTurret"))
+        {
+            GameObject marker = GenerateMarkerAtPlayerPosition();
+            Camera.main.GetComponent<CameraController>().SetTarget(marker.transform);
+            Debug.Log("Game Over");
+            GameManager.Instance.GameOver();
+        }
+        if (other.CompareTag("DeathByTrapOrTurret"))
+            other.gameObject.SetActive(false);
+    }
+
+    private GameObject GenerateMarkerAtPlayerPosition()
+    {
+        Vector3 markerPosition = transform.position;
+        GameObject marker = Instantiate(markerPrefab, markerPosition, Quaternion.identity);
+        return marker;
     }
 
     private void HandleActivation()
     {
+        if (GameManager.Instance.IsGameOver)
+            return ;
+        
         if ((gameObject.tag == "Character1" && Input.GetKeyDown(KeyCode.Alpha1)) 
             || (gameObject.tag == "Character2" && Input.GetKeyDown(KeyCode.Alpha2))
             || (gameObject.tag == "Character3" && Input.GetKeyDown(KeyCode.Alpha3)))

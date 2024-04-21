@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     private int currentStageIndex = 0;
 
     public static GameManager Instance { get; private set; }
+    public bool IsGameOver { get; private set; }
 
     private void Awake()
     {
@@ -34,5 +35,15 @@ public class GameManager : MonoBehaviour
     public void StartFirstStage()
     {
         SceneManager.LoadScene(stages[0]);
+    }
+
+    public void GameOver()
+    {
+        IsGameOver = true;
+    }
+
+    public void NoGameOver()
+    {
+        IsGameOver = false;
     }
 }

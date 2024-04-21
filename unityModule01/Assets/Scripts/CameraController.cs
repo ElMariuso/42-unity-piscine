@@ -1,48 +1,39 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public GameObject activeCharacter;
+    public Transform currentTarget;
 
     // Start is called before the first frame update
     void Start()
     {
-        SetActiveCharacter(GameObject.FindGameObjectWithTag("Character1"));
+        SetTarget(GameObject.FindGameObjectWithTag("Character1").transform);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.Instance.IsGameOver)
+            return ;
         if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            SetActiveCharacter(GameObject.FindGameObjectWithTag("Character1"));
-        }
+            SetTarget(GameObject.FindGameObjectWithTag("Character1").transform);
         else if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            SetActiveCharacter(GameObject.FindGameObjectWithTag("Character2"));
-        }
+            SetTarget(GameObject.FindGameObjectWithTag("Character2").transform);
         else if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            SetActiveCharacter(GameObject.FindGameObjectWithTag("Character3"));
-        }
+            SetTarget(GameObject.FindGameObjectWithTag("Character3").transform);
 
-        if (activeCharacter != null)
+        if (currentTarget != null)
         {
-            Vector3 newPosition = activeCharacter.transform.position;
+            Vector3 newPosition = currentTarget.position;
             newPosition.x = 7;
-            newPosition.y += activeCharacter.transform.localScale.y * 0.66f;
+            newPosition.y += currentTarget.transform.localScale.y * 0.66f;
             transform.position = newPosition;
-            transform.LookAt(activeCharacter.transform);
+            transform.LookAt(currentTarget);
         }
     }
 
-    void SetActiveCharacter(GameObject character)
+    public void SetTarget(Transform newTarget)
     {
-        if (character != null)
-        {
-            activeCharacter = character;
-        }
+        currentTarget = newTarget;
     }
 }

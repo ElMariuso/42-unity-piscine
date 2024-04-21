@@ -17,6 +17,7 @@ TagManager:
   - RedDoor
   - BlueDoor
   - YellowDoor
+  - DeathByHole
   layers:
   - Default
   - TransparentFX

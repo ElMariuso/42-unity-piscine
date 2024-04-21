@@ -9,6 +9,7 @@ public class RestartScene : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R) || Input.GetKeyDown(KeyCode.Backspace))
         {
             RestartSceneFunction();
+            GameManager.Instance.NoGameOver();
         }
     }
 
