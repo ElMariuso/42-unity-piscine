@@ -16,7 +16,7 @@ public class Spawner : MonoBehaviour
 
     private IEnumerator SpawnEnemy()
     {
-        while (GameManager.Instance != null && !GameManager.Instance.isGameOver)
+        while (!GameManager.Instance.isGameOver)
         {
             if (enemyPrefab != null)
             {
