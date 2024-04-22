@@ -45,15 +45,45 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("DeathByHole") || other.CompareTag("DeathByTrapOrTurret"))
+        switch (other.gameObject.tag)
         {
-            GameObject marker = GenerateMarkerAtPlayerPosition();
-            Camera.main.GetComponent<CameraController>().SetTarget(marker.transform);
-            Debug.Log("Game Over");
-            GameManager.Instance.GameOver();
+            case "DeathByHole":
+                ApplyGameOverEffects(other);
+                break ;
+            case "DeathByTurretRed":
+                if (gameObject.tag == "Character1")
+                {
+                    gameObject.SetActive(false);
+                    ApplyGameOverEffects(other);
+                }
+                break ;
+            case "DeathByTurretBlue":
+                if (gameObject.tag == "Character2")
+                {
+                    gameObject.SetActive(false);
+                    ApplyGameOverEffects(other);
+                }
+                break ;
+            case "DeathByTurretYellow":
+                if (gameObject.tag == "Character3")
+                {
+                    gameObject.SetActive(false);
+                    ApplyGameOverEffects(other);
+                }
+                break ;
+            case "DeathByTrapOrTurret":
+                gameObject.SetActive(false);
+                ApplyGameOverEffects(other);
+                break ;
         }
-        if (other.CompareTag("DeathByTrapOrTurret"))
-            other.gameObject.SetActive(false);
+    }
+
+    private void ApplyGameOverEffects(Collider other)
+    {
+        GameObject marker = GenerateMarkerAtPlayerPosition();
+        Camera.main.GetComponent<CameraController>().SetTarget(marker.transform);
+        Debug.Log("Game Over");
+        GameManager.Instance.GameOver();
     }
 
     private GameObject GenerateMarkerAtPlayerPosition()

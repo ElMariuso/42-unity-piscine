@@ -18,6 +18,12 @@ TagManager:
   - BlueDoor
   - YellowDoor
   - DeathByHole
+  - DeathByTrapOrTurret
+  - Canon
+  - Sphere
+  - DeathByTurretRed
+  - DeathByTurretBlue
+  - DeathByTurretYellow
   layers:
   - Default
   - TransparentFX
@@ -32,9 +38,9 @@ TagManager:
   - YellowCharacter
   - YellowPlatform
   - WhitePlatform
-  - 
-  - 
-  - 
+  - RedBullet
+  - YellowBullet
+  - BlueBullet
   - 
   - 
   - 
