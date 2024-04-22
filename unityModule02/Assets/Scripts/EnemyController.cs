@@ -4,15 +4,34 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private int damages = 1;
+    [SerializeField] private float moveSpeed = 1.0f;
+
+    private Rigidbody2D rb;
+    private float currentSpeed;
+
+    private void Awake()
     {
-        
+        rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        currentSpeed = moveSpeed;
     }
+
+    private void FixedUpdate()
+    {
+        currentSpeed += Time.fixedDeltaTime;
+        rb.velocity = new Vector2(0, -currentSpeed);
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "MapLimits")
+            DestroyEnemy();
+    }
+
+    public int GetDamages() { return (damages); }
+    public void DestroyEnemy() { Destroy(gameObject); }
 }

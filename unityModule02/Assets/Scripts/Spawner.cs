@@ -16,11 +16,16 @@ public class Spawner : MonoBehaviour
 
     private IEnumerator SpawnEnemy()
     {
-        if (enemyPrefab != null)
+        while (GameManager.Instance != null && !GameManager.Instance.isGameOver)
         {
-            GameObject enemyInstance = Instantiate(enemyPrefab, transform.position, transform.rotation);
-            enemyInstance.setActive(true);
-            yield return new WaitForSeconds(spawnRate);
+            if (enemyPrefab != null)
+            {
+                GameObject enemyInstance = Instantiate(enemyPrefab, transform.position, transform.rotation);
+                enemyInstance.SetActive(true);
+                yield return new WaitForSeconds(spawnRate);
+            }
+            else
+                yield break ;
         }
     }
 }
