@@ -6,6 +6,7 @@ public class EnemyController : MonoBehaviour
 {
     [SerializeField] private int damages = 1;
     [SerializeField] private float moveSpeed = 1.0f;
+    [SerializeField] private float hp = 1.0f;
 
     private Rigidbody2D rb;
     private float currentSpeed;
@@ -43,6 +44,13 @@ public class EnemyController : MonoBehaviour
             DestroyEnemy();
     }
 
+    public void TakeDamage(float amount)
+    {
+        hp = hp - amount;
+
+        if (hp <= 0)
+            Destroy(gameObject);
+    }
     public int GetDamages() { return (damages); }
     public void DestroyEnemy() { Destroy(gameObject); }
 }
