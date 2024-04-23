@@ -8,8 +8,8 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float moveSpeed = 1.0f;
     [SerializeField] private float hp = 1.0f;
 
-    private Rigidbody2D rb;
-    private float currentSpeed;
+    public Rigidbody2D rb { get; private set; }
+    public float currentSpeed { get; private set; }
 
     private void Awake()
     {
@@ -34,13 +34,11 @@ public class EnemyController : MonoBehaviour
             currentSpeed += Time.fixedDeltaTime;
             rb.velocity = new Vector2(0, -currentSpeed);
         }
-        else
-            Debug.LogError("Rigidbody2D non trouvé sur " + gameObject.name + ", assurez-vous qu'il est attaché au préfabriqué.");
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.tag == "MapLimits")
+        if (other.gameObject.CompareTag("MapLimits"))
             DestroyEnemy();
     }
 
@@ -50,7 +48,10 @@ public class EnemyController : MonoBehaviour
 
         if (hp <= 0)
             Destroy(gameObject);
+
+        Debug.Log("Has now: " + hp);
     }
+
     public int GetDamages() { return (damages); }
     public void DestroyEnemy() { Destroy(gameObject); }
 }

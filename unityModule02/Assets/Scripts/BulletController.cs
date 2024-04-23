@@ -4,22 +4,41 @@ using UnityEngine;
 
 public class BulletController : MonoBehaviour
 {
+    private Rigidbody2D rb;
     private float damages = 0.1f;
+    public float moveSpeed = 5f;
 
-    private void SetDamages(float newDamages)
+    public void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+    public void SetDamages(float newDamages)
     {
         damages = newDamages;
     }
 
+    public void Launch(Vector2 direction)
+    {
+        if (rb != null)
+            rb.velocity = direction.normalized * moveSpeed;
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Enemy")
+        if (other.gameObject.CompareTag("Enemy"))
         {
             EnemyController enemy = other.gameObject.GetComponent<EnemyController>();
             enemy.TakeDamage(damages);
-            Destroy(gameObject);
+            DestroyBullet();
         }
-        else if (other.gameObject.tag == "MapLimits")
-            Destroy(gameObject);
     }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("MapLimits"))
+            DestroyBullet();
+    }
+
+    private void DestroyBullet() { Destroy(gameObject); }
 }
