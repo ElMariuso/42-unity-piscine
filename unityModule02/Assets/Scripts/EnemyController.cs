@@ -48,8 +48,6 @@ public class EnemyController : MonoBehaviour
 
         if (hp <= 0)
             Destroy(gameObject);
-
-        Debug.Log("Has now: " + hp);
     }
 
     public int GetDamages() { return (damages); }
