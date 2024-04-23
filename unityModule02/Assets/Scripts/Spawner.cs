@@ -7,8 +7,6 @@ public class Spawner : MonoBehaviour
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private float spawnRate = 2.0f;
 
-    private IEnumerator routine = null;
-
     private void Awake()
     {
         StartCoroutine(SpawnEnemy());
@@ -16,6 +14,8 @@ public class Spawner : MonoBehaviour
 
     private IEnumerator SpawnEnemy()
     {
+        yield return new WaitUntil(() => GameManager.Instance != null);
+
         while (!GameManager.Instance.isGameOver)
         {
             if (enemyPrefab != null)

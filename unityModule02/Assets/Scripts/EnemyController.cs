@@ -20,10 +20,21 @@ public class EnemyController : MonoBehaviour
         currentSpeed = moveSpeed;
     }
 
+    private void Update()
+    {
+        if (GameManager.Instance.isGameOver)
+            DestroyEnemy();
+    }
+
     private void FixedUpdate()
     {
-        currentSpeed += Time.fixedDeltaTime;
-        rb.velocity = new Vector2(0, -currentSpeed);
+        if (rb != null)
+        {
+            currentSpeed += Time.fixedDeltaTime;
+            rb.velocity = new Vector2(0, -currentSpeed);
+        }
+        else
+            Debug.LogError("Rigidbody2D non trouvé sur " + gameObject.name + ", assurez-vous qu'il est attaché au préfabriqué.");
     }
 
     private void OnTriggerExit2D(Collider2D other)
