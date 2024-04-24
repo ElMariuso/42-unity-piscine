@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        Time.timeScale = 1f;
+        
         if (Instance == null)
         {
             Instance = this;
