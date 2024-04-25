@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int maxEnergy = 10;
     [SerializeField] private int energy = 10;
     private BarScript energyBar;
+    private int activeEnemies = 0;
+    private int totalEnemiesSpawned = 0;
 
     private void Awake()
     {
@@ -72,5 +74,32 @@ public class GameManager : MonoBehaviour
     public bool HasEnoughEnergy(int amount)
     {
         return (energy - amount >= 0);
+    }
+
+    public void EnemySpawned()
+    {
+        activeEnemies++;
+        totalEnemiesSpawned++;
+    }
+
+    public void EnemyDestroyed()
+    {
+        activeEnemies--;
+        CheckEndOfLevel();
+    }
+
+    private void CheckEndOfLevel()
+    {
+        if (activeEnemies <= 0 && totalEnemiesSpawned >= numberOfSpawn)
+        {
+            Debug.Log("Score " + CalculateScore());
+        }
+    }
+
+    public float CalculateScore()
+    {
+        float healthScore = (float)Base.Instance.hp / Base.Instance.maxHp * 100;
+        float energyScore = (float)energy / maxEnergy * 100;
+        return ((healthScore + energyScore) / 2);
     }
 }

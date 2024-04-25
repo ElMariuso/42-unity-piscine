@@ -13,6 +13,16 @@ public class Spawner : MonoBehaviour
         StartCoroutine(SpawnEnemy());
     }
 
+    public void EnemySpawned()
+    {
+        GameManager.Instance.EnemySpawned();
+    }
+
+    public void EnemyDestroyed()
+    {
+        GameManager.Instance.EnemyDestroyed();
+    }
+
     private IEnumerator SpawnEnemy()
     {
         yield return new WaitUntil(() => GameManager.Instance != null);
@@ -25,6 +35,7 @@ public class Spawner : MonoBehaviour
             {
                 GameObject enemyInstance = Instantiate(enemyPrefab, transform.position, transform.rotation);
                 enemyInstance.SetActive(true);
+                GameManager.Instance.EnemySpawned();
                 spawnCount++;
                 yield return new WaitForSeconds(spawnRate);
             }
