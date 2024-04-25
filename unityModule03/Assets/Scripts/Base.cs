@@ -4,7 +4,16 @@ using UnityEngine;
 
 public class Base : MonoBehaviour
 {
+    [SerializeField] private int maxHp = 5;
     [SerializeField] private int hp = 5;
+    [SerializeField] private BarScript hpBar;
+
+    private void Awake()
+    {
+        if (hpBar != null)
+            hpBar.SetMaxValue(maxHp);
+        hpBar.SetValue(hp);
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -23,12 +32,13 @@ public class Base : MonoBehaviour
     {
         hp = hp - amount;
 
+        if (hpBar != null)
+            hpBar.SetValue(hp);
+
         if (hp <= 0)
         {
             GameManager.Instance.GameOver();
             Destroy(gameObject);
         }
-        else
-            Debug.Log("Your base have now " + hp + " hp!");
     }
 }

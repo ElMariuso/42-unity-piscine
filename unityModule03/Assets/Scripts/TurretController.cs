@@ -5,11 +5,14 @@ using UnityEngine;
 
 public class TurretController : MonoBehaviour
 {
-    [SerializeField] private float damages = 0.1f;
-    [SerializeField] private float fireRates = 0.1f;
     [SerializeField] private GameObject bulletPrefab;
 
     public List<GameObject> enemiesInRange = new List<GameObject>();
+
+    // Stats
+    public float damages = 0.1f;
+    public float fireRates = 0.1f;
+    public int cost = 1;
 
     // Utilities
     private GameObject closestEnemy = null;
