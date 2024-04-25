@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,12 +10,20 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int maxEnergy = 10;
     [SerializeField] private int energy = 10;
     private BarScript energyBar;
+    private Spawner spawner;
+    private Base base1;
     private int activeEnemies = 0;
     private int totalEnemiesSpawned = 0;
+    private int numberOfSpawn = 0;
+
+    // Manage scenes
+    public int currentLevel = 1;
+    public int maxLevel = 2;
+
+    public float score;
 
     private void Awake()
     {
-        Time.timeScale = 1f;
         if (Instance == null)
         {
             Instance = this;
@@ -31,6 +40,29 @@ public class GameManager : MonoBehaviour
         NoGameOver();
     }
 
+    public void SetupSpawner(Spawner sp)
+    {
+        spawner = sp;
+        if (spawner != null)
+        {
+            numberOfSpawn = spawner.numberOfSpawn;
+        }
+    }
+
+    public void ResetValues()
+    {
+        NoGameOver();
+        activeEnemies = 0;
+        totalEnemiesSpawned = 0;
+        Time.timeScale = 1f;
+        energy = maxEnergy;
+    }
+
+    public void SetupBase(Base base2)
+    {
+        base1 = base2;
+    }
+
     public void SetupEnergyBar(BarScript bar)
     {
         energyBar = bar;
@@ -43,7 +75,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        Debug.Log("Game Over");
+        SceneManager.LoadScene("Score");
         isGameOver = true;
     }
 
@@ -92,14 +124,24 @@ public class GameManager : MonoBehaviour
     {
         if (activeEnemies <= 0 && totalEnemiesSpawned >= numberOfSpawn)
         {
-            Debug.Log("Score " + CalculateScore());
+            score = CalculateScore();
+            SceneManager.LoadScene("Score");
         }
     }
 
     public float CalculateScore()
     {
-        float healthScore = (float)Base.Instance.hp / Base.Instance.maxHp * 100;
+        float healthScore = (float)base1.hp / base1.maxHp * 100;
         float energyScore = (float)energy / maxEnergy * 100;
         return ((healthScore + energyScore) / 2);
+    }
+
+    public void LoadNextLevel()
+    {
+        currentLevel++;
+        if (currentLevel <= maxLevel)
+            SceneManager.LoadScene("Map" + currentLevel);
+        else
+            SceneManager.LoadScene("EndGame");
     }
 }

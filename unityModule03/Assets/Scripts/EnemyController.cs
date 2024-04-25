@@ -50,6 +50,7 @@ public class EnemyController : MonoBehaviour
         if (hp <= 0)
         {
             GameManager.Instance.AddEnergy(energyAmount);
+            GameManager.Instance.EnemyDestroyed();
             Destroy(gameObject);
         }
     }

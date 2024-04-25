@@ -5,11 +5,18 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private int timeBeforeLaunch = 3;
     [SerializeField] private float spawnRate = 2.0f;
-    [SerializeField] private int numberOfSpawn = 15;
+    public int numberOfSpawn = 15;
 
     private void Awake()
     {
+        Spawner sp = GetComponent<Spawner>();
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.SetupSpawner(sp);  
+        }
+
         StartCoroutine(SpawnEnemy());
     }
 
@@ -18,14 +25,10 @@ public class Spawner : MonoBehaviour
         GameManager.Instance.EnemySpawned();
     }
 
-    public void EnemyDestroyed()
-    {
-        GameManager.Instance.EnemyDestroyed();
-    }
-
     private IEnumerator SpawnEnemy()
     {
         yield return new WaitUntil(() => GameManager.Instance != null);
+        yield return new WaitForSecondsRealtime(timeBeforeLaunch);
 
         int spawnCount = 0;
 
