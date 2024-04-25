@@ -6,6 +6,7 @@ public class Spawner : MonoBehaviour
 {
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private float spawnRate = 2.0f;
+    [SerializeField] private int numberOfSpawn = 15;
 
     private void Awake()
     {
@@ -16,12 +17,15 @@ public class Spawner : MonoBehaviour
     {
         yield return new WaitUntil(() => GameManager.Instance != null);
 
-        while (!GameManager.Instance.isGameOver)
+        int spawnCount = 0;
+
+        while (!GameManager.Instance.isGameOver && spawnCount < numberOfSpawn)
         {
             if (enemyPrefab != null)
             {
                 GameObject enemyInstance = Instantiate(enemyPrefab, transform.position, transform.rotation);
                 enemyInstance.SetActive(true);
+                spawnCount++;
                 yield return new WaitForSeconds(spawnRate);
             }
             else
