@@ -38,9 +38,13 @@ public class PlayerController : MonoBehaviour
             Flip();
 
         if (!isGrounded && rb.velocity.y > 0)
-         animator.SetBool("IsFalling", false);
-        else if (rb.velocity.y <= 0)
+        {
+            animator.SetBool("IsFalling", false);
+        }
+        else if (!isGrounded && rb.velocity.y <= 0)
+        {
             animator.SetBool("IsFalling", true);
+        }
     }
 
     void FixedUpdate()
