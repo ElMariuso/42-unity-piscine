@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class LianaManager : MonoBehaviour
 {
+    public AudioSource attackSound;
     [SerializeField] private GameObject target;
     [SerializeField] private Animator animator;
     [SerializeField] private int damage = 1;
@@ -24,6 +25,7 @@ public class LianaManager : MonoBehaviour
         {
             PlayerController player = target.GetComponent<PlayerController>();
 
+            attackSound.Play();
             player.TakeDamages(damage);
         }
     }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+    public AudioSource respawnSound;
     [SerializeField] Animator animator;
     [SerializeField] Animator playerAnimator;
     [SerializeField] GameObject player;
@@ -26,6 +27,7 @@ public class LevelManager : MonoBehaviour
         player.transform.position = startPosition;
         playerAnimator.SetBool("IsRespawning", true);
         animator.SetTrigger("FadeToWhite");
+        respawnSound.Play();
     }
 
     private void Reset()

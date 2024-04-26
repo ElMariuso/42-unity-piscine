@@ -14,6 +14,9 @@ public class PlayerController : MonoBehaviour
     // Sounds
     public AudioSource jumpSound;
     public AudioSource hitSound;
+    public AudioSource deathSound;
+
+    public LayerMask whatIsWall;
 
     private float horizontalMove = 0f;
     private bool jump = false;
@@ -24,6 +27,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private bool isGrounded = true;
     private bool isDeath = false;
+    private bool isOnAWall = false;
 
     private void Awake()
     {
@@ -35,6 +39,11 @@ public class PlayerController : MonoBehaviour
         if (isDeath) return ;
 
         horizontalMove = Input.GetAxisRaw("Horizontal") * moveSpeed;
+        if (isOnAWall && !isGrounded)
+        {
+            if ((facingRight && horizontalMove > 0) || (!facingRight && horizontalMove < 0))
+                horizontalMove = 0;
+        }
 
         animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
 
@@ -49,18 +58,14 @@ public class PlayerController : MonoBehaviour
             Flip();
 
         if (!isGrounded && rb.velocity.y > 0)
-        {
             animator.SetBool("IsFalling", false);
-        }
         else if (!isGrounded && rb.velocity.y <= 0)
-        {
             animator.SetBool("IsFalling", true);
-        }
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        if (isDeath) return ;
+        if (isDeath) return;
 
         Vector2 targetVelocity = new Vector2(horizontalMove * Time.fixedDeltaTime, rb.velocity.y);
         rb.velocity = Vector2.SmoothDamp(rb.velocity, targetVelocity, ref velocity, 0.05f);
@@ -81,6 +86,19 @@ public class PlayerController : MonoBehaviour
             isGrounded = true;
             OnLanding();
         }
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            horizontalMove = 0;
+            isOnAWall = true;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Wall"))
+        {
+            isOnAWall = false;
+        }
     }
 
     public void OnLanding()
@@ -93,13 +111,15 @@ public class PlayerController : MonoBehaviour
     {
         hp = hp - amount;
 
-        hitSound.Play();
-        if (hp <= 0)
+        if (!isDeath)
+            hitSound.Play();
+        if (hp <= 0 && !isDeath)
         {
             animator.SetBool("IsDeath", true);
             isDeath = true;
+            deathSound.Play();
         }
-        else
+        else if (!isDeath)
         {
             animator.SetBool("IsTakingDamage", true);
         }
@@ -126,7 +146,8 @@ public class PlayerController : MonoBehaviour
         isDeath = false;
         animator.SetBool("IsRespawning", false);
         hp = maxHp;
-        Flip();
+        if (!facingRight)
+            Flip();
     }
 
     private void Flip()

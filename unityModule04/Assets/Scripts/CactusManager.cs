@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CactusManager : MonoBehaviour
 {
+    public AudioSource attackSound;
     [SerializeField] private GameObject target;
     [SerializeField] private Animator animator;
     [SerializeField] private int damage = 1;
@@ -26,6 +27,7 @@ public class CactusManager : MonoBehaviour
         {
             PlayerController player = target.GetComponent<PlayerController>();
 
+            attackSound.Play();
             player.TakeDamages(damage);
         }
     }
