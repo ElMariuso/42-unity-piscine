@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour
         activeEnemies = 0;
         totalEnemiesSpawned = 0;
         Time.timeScale = 1f;
+        score = 0;
         energy = maxEnergy;
     }
 
@@ -75,6 +76,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        score = CalculateScore();
         SceneManager.LoadScene("Score");
         isGameOver = true;
     }
