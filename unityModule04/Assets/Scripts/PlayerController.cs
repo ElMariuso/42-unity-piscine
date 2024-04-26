@@ -11,6 +11,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int maxHp = 3;
     [SerializeField] private int hp = 3;
 
+    // Sounds
+    public AudioSource jumpSound;
+    public AudioSource hitSound;
+
     private float horizontalMove = 0f;
     private bool jump = false;
     private bool facingRight = true;
@@ -63,6 +67,7 @@ public class PlayerController : MonoBehaviour
 
         if (jump)
         {
+            jumpSound.Play();
             rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
             isGrounded = false;
             jump = false;
@@ -88,6 +93,7 @@ public class PlayerController : MonoBehaviour
     {
         hp = hp - amount;
 
+        hitSound.Play();
         if (hp <= 0)
         {
             animator.SetBool("IsDeath", true);
