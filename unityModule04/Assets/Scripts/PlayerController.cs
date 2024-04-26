@@ -5,8 +5,12 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Animator animator;
+    [SerializeField] private Animator fadeAnimator;
     [SerializeField] private float moveSpeed = 40f;
-    [SerializeField] private float jumpForce = 400f;
+    [SerializeField] private float jumpForce = 10f;
+    [SerializeField] private int maxHp = 3;
+    [SerializeField] private int hp = 3;
+
     private float horizontalMove = 0f;
     private bool jump = false;
     private bool facingRight = true;
@@ -15,6 +19,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rb;
     private bool isGrounded = true;
+    private bool isDeath = false;
 
     private void Awake()
     {
@@ -23,6 +28,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (isDeath) return ;
+
         horizontalMove = Input.GetAxisRaw("Horizontal") * moveSpeed;
 
         animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
@@ -49,6 +56,8 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (isDeath) return ;
+
         Vector2 targetVelocity = new Vector2(horizontalMove * Time.fixedDeltaTime, rb.velocity.y);
         rb.velocity = Vector2.SmoothDamp(rb.velocity, targetVelocity, ref velocity, 0.05f);
 
@@ -73,6 +82,45 @@ public class PlayerController : MonoBehaviour
     {
         animator.SetBool("IsJumping", false);
         animator.SetBool("IsFalling", false);
+    }
+
+    public void TakeDamages(int amount)
+    {
+        hp = hp - amount;
+
+        if (hp <= 0)
+        {
+            animator.SetBool("IsDeath", true);
+            isDeath = true;
+        }
+        else
+        {
+            animator.SetBool("IsTakingDamage", true);
+        }
+    }
+
+    public void NoMoreDamages()
+    {
+        animator.SetBool("IsTakingDamage", false);
+    }
+
+    public void DeathDestroy()
+    {
+        fadeAnimator.SetTrigger("StartFade");
+        DisableGameObject();
+    }
+
+    void DisableGameObject()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public void noMoreDeath()
+    {
+        isDeath = false;
+        animator.SetBool("IsRespawning", false);
+        hp = maxHp;
+        Flip();
     }
 
     private void Flip()
