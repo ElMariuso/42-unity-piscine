@@ -4,36 +4,46 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private Animator animator;
-    [SerializeField] private Animator fadeAnimator;
+    /* Move values */
+    private Rigidbody2D rb;
     [SerializeField] private float moveSpeed = 40f;
     [SerializeField] private float jumpForce = 10f;
-    [SerializeField] private int maxHp = 3;
-    [SerializeField] private int hp = 3;
-
-    // Sounds
-    public AudioSource jumpSound;
-    public AudioSource hitSound;
-    public AudioSource deathSound;
-
-    public LayerMask whatIsWall;
-
     private float horizontalMove = 0f;
-    private bool jump = false;
-    private bool facingRight = true;
-
     private Vector2 velocity = Vector2.zero;
 
-    private Rigidbody2D rb;
-    private bool isGrounded = true;
-    private bool isDeath = false;
-    private bool isOnAWall = false;
+    /* Health Points */
+    [SerializeField] private int maxHp = 3;
+    private int hp;
 
+    /* Animators */
+    [SerializeField] private Animator animator;
+    [SerializeField] private Animator fadeAnimator;
+
+    /* Sounds */
+    [SerializeField] private AudioSource jumpSound;
+    [SerializeField] private AudioSource hitSound;
+    [SerializeField] private AudioSource deathSound;
+
+    /* State bools */
+    private bool isGrounded = true;
+    private bool jump = false;
+    private bool facingRight = true;
+    private bool isOnAWall = false;
+    private bool isDeath = false;
+
+    /* Start Functions */
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
     }
 
+    private void Start()
+    {
+        hp = maxHp;
+        transform.position = GameManager.Instance.startPosition;
+    }
+
+    /* Update Functions */
     private void Update()
     {
         if (isDeath) return ;
@@ -79,6 +89,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /* Collision Functions */
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
@@ -92,7 +103,6 @@ public class PlayerController : MonoBehaviour
             isOnAWall = true;
         }
     }
-
     private void OnCollisionExit2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Wall"))

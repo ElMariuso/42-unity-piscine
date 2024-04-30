@@ -8,7 +8,6 @@ public class LevelManager : MonoBehaviour
     [SerializeField] Animator animator;
     [SerializeField] Animator playerAnimator;
     [SerializeField] GameObject player;
-    [SerializeField] Vector3 startPosition;
 
     public void OnFadeComplete()
     {
@@ -24,7 +23,7 @@ public class LevelManager : MonoBehaviour
 
     private void ResetPlayerPosition()
     {
-        player.transform.position = startPosition;
+        player.transform.position = GameManager.Instance.startPosition;
         playerAnimator.SetBool("IsRespawning", true);
         animator.SetTrigger("FadeToWhite");
         respawnSound.Play();
