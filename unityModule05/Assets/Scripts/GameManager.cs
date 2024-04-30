@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -66,6 +67,7 @@ public class GameManager : MonoBehaviour
         if (!canExit) return ;
 
         totalScore += score;
-        Debug.Log("Finish level");
+        score = 0;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }
